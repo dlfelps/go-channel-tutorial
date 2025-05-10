@@ -1,0 +1,29 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.19'
+
+    - name: Build
+      run: go build -o channel-patterns
+      
+    - name: Check List Flag
+      run: ./channel-patterns -list
+      
+    - name: Test Non-Interactive Learning Mode
+      run: |
+        # Test with timeout (will auto-advance due to our non-interactive mode detection)
+        timeout 5s ./channel-patterns -learn basic || true

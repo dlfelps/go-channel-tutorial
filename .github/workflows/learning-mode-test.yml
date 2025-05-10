@@ -1,0 +1,35 @@
+name: Learning Mode Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-learning-mode:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.19'
+
+    - name: Verify Learning Mode List
+      run: go run main.go -list
+      
+    - name: Test Basic Learning Mode
+      run: |
+        # We can't use interactive input in GitHub Actions, so we redirect /dev/null to stdin
+        go run main.go -learn basic < /dev/null
+        
+    - name: Test Select Learning Mode
+      run: |
+        go run main.go -learn select < /dev/null
+        
+    - name: Build Binary
+      run: |
+        go build -o channel-patterns
+        ./channel-patterns -list

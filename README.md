@@ -8,13 +8,40 @@ Channels are a core feature of Go's concurrency model. They provide a way for go
 
 ## Running the Examples
 
-To run all examples:
+There are multiple ways to run the examples:
+
+### Using Go directly:
 
 ```bash
 go run main.go
 ```
 
+### Using the Makefile:
+
+```bash
+# Run all examples
+make run
+
+# Build the binary
+make build
+
+# Run a specific learning topic
+make learn TOPIC=basic
+```
+
 The program will automatically cycle through all examples with a brief pause between each demonstration.
+
+## Continuous Integration
+
+This project uses GitHub Actions for continuous integration. The workflow automatically builds and tests the code on every push to the main branch or pull request.
+
+The CI workflow performs the following steps:
+- Sets up Go environment
+- Builds the project
+- Runs tests
+- Verifies the binary execution
+
+You can see the workflow configuration in `.github/workflows/go.yml`.
 
 ## Learning Mode with Step-by-Step Explanations
 

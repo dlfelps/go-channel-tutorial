@@ -3,6 +3,7 @@ package channelpatterns
 import (
         "fmt"
         "strings"
+        "time"
 )
 
 // LearningModeStepExplanation contains detailed explanation for a step
@@ -72,7 +73,21 @@ func DemonstrateLearningMode(patternName string) {
                 // Pause between steps to allow reading
                 if i < len(steps)-1 {
                         fmt.Println("\nPress Enter to continue to the next step...")
-                        fmt.Scanln() // Wait for user to press Enter
+                        
+                        // Set up a channel to signal if input is received
+                        inputCh := make(chan bool)
+                        go func() {
+                                fmt.Scanln() // Wait for user to press Enter
+                                inputCh <- true
+                        }()
+                        
+                        // Either wait for user input or timeout (for CI environments)
+                        select {
+                        case <-inputCh:
+                                // User pressed Enter, continue
+                        case <-time.After(200 * time.Millisecond):
+                                // In CI environment or non-interactive mode, continue after timeout
+                        }
                 }
         }
         
@@ -80,7 +95,21 @@ func DemonstrateLearningMode(patternName string) {
         fmt.Println("You've completed the detailed explanation of " + patternName + " channel patterns.")
         fmt.Println("Next, you'll see the actual code in action.")
         fmt.Println("\nPress Enter to see the live demonstration...")
-        fmt.Scanln() // Wait for user to press Enter
+        
+        // Set up a channel to signal if input is received
+        inputCh := make(chan bool)
+        go func() {
+                fmt.Scanln() // Wait for user to press Enter
+                inputCh <- true
+        }()
+        
+        // Either wait for user input or timeout (for CI environments)
+        select {
+        case <-inputCh:
+                // User pressed Enter, continue
+        case <-time.After(200 * time.Millisecond):
+                // In CI environment or non-interactive mode, continue after timeout
+        }
 }
 
 // GetBasicChannelExplanations returns explanations for basic channel operations

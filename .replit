@@ -15,6 +15,10 @@ author = "agent"
 task = "workflow.run"
 args = "go_run"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "go-run"
+
 [[workflows.workflow]]
 name = "go_run"
 author = "agent"
@@ -22,6 +26,14 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "go run main.go"
+
+[[workflows.workflow]]
+name = "go-run"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make run"
 
 [deployment]
 run = ["sh", "-c", "go run main.go"]
